@@ -1,25 +1,15 @@
 using Code.Services.Input;
-using UnityEngine;
 
 namespace Code.Infrastructure
 {
     public class Game
     {
+        public readonly GameStateMachine StateMachine;
         public static IInputService InputService;
 
-        public Game()
+        public Game(ICoroutineRunner coroutineRunner)
         {
-            RegisterInputService();
-        }
-
-        private static void RegisterInputService()
-        {
-            if (Application.isEditor)
-                InputService = new StandaloneInputServices();
-            else
-            {
-                InputService = new MobileInputServices();
-            }
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner));
         }
     }
 }
