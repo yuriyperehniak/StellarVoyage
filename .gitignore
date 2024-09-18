@@ -72,3 +72,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .idea
 Assets/Materials/BreakableAsteroids/Textures/The Void 8k.hdr
+Assets/Materials/BreakableAsteroids/Asteroids/zasteroids.dae
