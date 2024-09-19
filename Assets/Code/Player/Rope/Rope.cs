@@ -1,6 +1,10 @@
+using UnityEngine;
+
 namespace Code.Player.Rope
 {
-    public class Rope
+    [RequireComponent(typeof(LineRenderer))]
+    [RequireComponent(typeof(Collider))]
+    public class Rope : MonoBehaviour
     {
         
     }

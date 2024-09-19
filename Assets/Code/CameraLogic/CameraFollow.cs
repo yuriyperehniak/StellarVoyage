@@ -4,10 +4,10 @@ namespace Code.CameraLogic
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private float rotationAngleX = 20f;
-        [SerializeField] private float distance = 10f;
-        [SerializeField] private float offsetY = 5f;
-        [SerializeField] private float smoothSpeed = 0.125f;
+        [SerializeField] private float rotationAngleX = 30f;
+        [SerializeField] private float distance = 20f;
+        [SerializeField] private float offsetY = 0f;
+        [SerializeField] private float smoothSpeed = 2;
 
         private Transform _following;
 
