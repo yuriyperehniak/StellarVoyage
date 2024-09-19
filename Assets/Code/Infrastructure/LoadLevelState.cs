@@ -7,6 +7,10 @@ namespace Code.Infrastructure
 {
     public class LoadLevelState : IPayloadedState<string>
     {
+        private const string InitialPointTag = "InitialPoint";
+        private const string PlayershipPath = "Prefabs/PlayerShip";
+        private const string HUDPath = "Prefabs/HUD";
+        
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -27,8 +31,10 @@ namespace Code.Infrastructure
 
         private void OnLoaded()
         {
-            GameObject player = Instantiate("Prefabs/PlayerShip");
-            Instantiate("Prefabs/HUD");
+            var initialPoint = GameObject.FindGameObjectWithTag(InitialPointTag);
+            GameObject player = Instantiate(PlayershipPath, at: initialPoint.transform.position);
+            
+            Instantiate(HUDPath);
             CameraFollow(player);
         }
 
@@ -43,6 +49,12 @@ namespace Code.Infrastructure
         {
             var prefab = Resources.Load<GameObject>(path);
             return Object.Instantiate(prefab);
+        }
+        
+        private static GameObject Instantiate(string path, Vector3 at)
+        {
+            var prefab = Resources.Load<GameObject>(path);
+            return Object.Instantiate(prefab, at , Quaternion.identity);
         }
     }
 }
