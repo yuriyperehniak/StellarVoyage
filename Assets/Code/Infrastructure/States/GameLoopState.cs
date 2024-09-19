@@ -1,6 +1,6 @@
-using System;
+using Code.Infrastructure.Interfaces;
 
-namespace Code.Infrastructure
+namespace Code.Infrastructure.States
 {
     public class GameLoopState : IState
     {

@@ -1,7 +1,8 @@
+using Code.Infrastructure.Interfaces;
 using Code.Services.Input;
 using UnityEngine;
 
-namespace Code.Infrastructure
+namespace Code.Infrastructure.States
 {
     public class BootStrapState : IState
     {

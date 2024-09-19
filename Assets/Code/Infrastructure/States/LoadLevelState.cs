@@ -1,9 +1,9 @@
-using System;
 using Code.CameraLogic;
+using Code.Infrastructure.Interfaces;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Code.Infrastructure
+namespace Code.Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
