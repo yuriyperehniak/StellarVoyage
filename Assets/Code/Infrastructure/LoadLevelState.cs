@@ -9,25 +9,28 @@ namespace Code.Infrastructure
     {
         private const string InitialPointTag = "InitialPoint";
         private const string PlayershipPath = "Prefabs/PlayerShip";
-        private const string HUDPath = "Prefabs/HUD";
+        private const string HUDPath = "Hud/HUD";
         
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly LoadingCurtain _curtain;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _curtain = curtain;
         }
         
 
-        public void Enter(string sceneName) => 
-            _sceneLoader.Load(sceneName, OnLoaded);
-
-        public void Exit()
+        public void Enter(string sceneName)
         {
-            throw new NotImplementedException();
+            _curtain.Show();
+            _sceneLoader.Load(sceneName, OnLoaded);
         }
+
+        public void Exit() => 
+            _curtain.Hide();
 
         private void OnLoaded()
         {
@@ -36,6 +39,8 @@ namespace Code.Infrastructure
             
             Instantiate(HUDPath);
             CameraFollow(player);
+            
+            _stateMachine.Enter<GameLoopState>();
         }
 
         private void CameraFollow(GameObject target)
