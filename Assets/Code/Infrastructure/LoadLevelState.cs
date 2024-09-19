@@ -1,4 +1,7 @@
 using System;
+using Code.CameraLogic;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Code.Infrastructure
 {
@@ -15,11 +18,31 @@ namespace Code.Infrastructure
         
 
         public void Enter(string sceneName) => 
-            _sceneLoader.Load(sceneName);
+            _sceneLoader.Load(sceneName, OnLoaded);
 
         public void Exit()
         {
             throw new NotImplementedException();
+        }
+
+        private void OnLoaded()
+        {
+            GameObject player = Instantiate("Prefabs/PlayerShip");
+            Instantiate("Prefabs/HUD");
+            CameraFollow(player);
+        }
+
+        private void CameraFollow(GameObject target)
+        {
+            Camera.main?
+                .GetComponent<CameraFollow>()
+                .Follow(target);
+        }
+
+        private static GameObject Instantiate(string path)
+        {
+            var prefab = Resources.Load<GameObject>(path);
+            return Object.Instantiate(prefab);
         }
     }
 }
