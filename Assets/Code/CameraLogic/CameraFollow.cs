@@ -4,10 +4,10 @@ namespace Code.CameraLogic
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private float rotationAngleX = 30f;
-        [SerializeField] private float distance = 20f;
-        [SerializeField] private float offsetY = 0f;
-        [SerializeField] private float smoothSpeed = 2;
+        [SerializeField] private float distance = 20f;     // Відстань від гравця
+        [SerializeField] private float offsetY = 10f;       // Відстань по вертикалі
+        [SerializeField] private float smoothSpeed = 0.4f; // Швидкість плавності
+        [SerializeField] private float tiltAngleX = 25f;   // Нахил по осі X
 
         private Transform _following;
 
@@ -20,10 +20,17 @@ namespace Code.CameraLogic
 
             Vector3 desiredPosition = CalculateCameraPosition();
 
+            // Плавне переміщення камери до бажаної позиції
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
 
             transform.position = smoothedPosition;
-            transform.LookAt(FollowingPointPosition());
+
+            // Встановлюємо ротацію камери з урахуванням повороту гравця і нахилу по осі X
+            Quaternion playerRotation = _following.rotation;
+            Quaternion tiltRotation = Quaternion.Euler(tiltAngleX, 0, 0); // Нахил по осі X
+
+            // Поєднуємо поворот гравця з нахилом камери по осі X
+            transform.rotation = playerRotation * tiltRotation;
         }
 
         public void Follow(GameObject following)
@@ -33,19 +40,10 @@ namespace Code.CameraLogic
 
         private Vector3 CalculateCameraPosition()
         {
-            Quaternion rotation = Quaternion.Euler(rotationAngleX, 0, 0);
-            Vector3 offset = rotation * new Vector3(0, 0, -distance);
-            Vector3 followingPosition = FollowingPointPosition();
+            // Відстань від гравця з урахуванням його ротації
+            Vector3 offset = _following.rotation * new Vector3(0, offsetY, -distance);
 
-            return followingPosition + offset;
-        }
-
-        private Vector3 FollowingPointPosition()
-        {
-            Vector3 followingPosition = _following.position;
-            followingPosition.y += offsetY;
-
-            return followingPosition;
+            return _following.position + offset;
         }
     }
 }
